@@ -1,5 +1,5 @@
 let ApiKey = "e3b3095tf9493f408498of3c2e1c6a18";
-let ApiUrl = "https://api.shecodes.io/ai/v1/generate";
+let ApiUrl = `https://api.shecodes.io/ai/v1/generate?prompt=${prompt}&context=${context}&key=${apiKey}`;
 let chatBox = document.getElementById("chat-box");
 let userInput = document.getElementById("userInput");
 
@@ -25,18 +25,9 @@ function sendMessage (){
 async function callAI(message) {
     addTypingIndicator();
     try{
-        let response = await fetch(ApiUrl, {
-           method: "POST",
-           headers: {
-            "Content-Type": "application/json"
-           },
-           body: JSON.stringify({
-            key: ApiKey,
-            message: [ {role: "system", content: "You are a friendly mental wellness assistant."},
-                {role: "user", content: message}
-            ]
-           })
-    });
+       let prompt = encodeURIComponent(message);
+       let context = encodeURIComponent("You are a compassionate, supportive mental wellness assistant. Reply empathetically and concisely.");
+    let response = await fetch(url);
     let data = await response.json();
     removeTypingIndicator();
     let aiText;
