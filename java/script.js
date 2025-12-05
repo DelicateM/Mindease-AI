@@ -1,5 +1,5 @@
 let ApiKey = "e3b3095tf9493f408498of3c2e1c6a18";
-let ApiUrl = `https://api.shecodes.io/ai/v1/generate?prompt=${prompt}&context=${context}&key=${apiKey}`;
+let ApiUrl = "https://api.shecodes.io/ai/v1/generate";
 let chatBox = document.getElementById("chat-box");
 let userInput = document.getElementById("userInput");
 
@@ -13,11 +13,11 @@ else {
 }
 renderChat();
 function sendMessage (){
-    let text = userInput.ariaValueMax.trim();
+    let text = userInput.value.trim();
     if (text === "") return;
     let userMsg = { sender: "user", text: text, timestamp:Date.now()};
     chatHistory.push(userMsg);
-    savedHistory();
+    saveHistory();
     renderChat();
     userInput.value = "";
     callAI(text);
@@ -48,7 +48,7 @@ async function callAI(message) {
     }
     let aiMsg = { sender: "ai", text: aiText, timestamp: Date.now()};
     chatHistory.push(aiMsg);
-    savedHistory();
+    saveHistory();
     renderChat();
 }
 catch (error){
@@ -79,7 +79,7 @@ function removeTypingIndicator (){
 function renderChat(){
     chatBox.innerHTML = "";
     for (let msg of chatHistory){
-        let bubble = document.createElement(div);
+        let bubble = document.createElement("div");
         bubble.className = "message" + (msg.sender === "user" ? "user" : "ai");
         bubble.innerText = msg.text;
         chatBox.appendChild(bubble);
@@ -99,14 +99,14 @@ async function generateWeeklySummary() {
     .map(msg => msg.sender.toUpperCase() + ": " + msg.text)
     .join("\n");
     let prompt = "Create a supportive weekly mental wellness reflection summary based on this conversation:\n\n" + last7;
-    let response = await fetch (Api_url, {
+    let response = await fetch (ApiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify({
             key: ApiKey,
             messages: [
                 {
-                    role: "systems", content: "You generate supportive and empathetic mental wellness summaries."
+                    role: "system", content: "You generate supportive and empathetic mental wellness summaries."
                 },
                 {role: "user", content: prompt}
             ]
