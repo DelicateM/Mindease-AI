@@ -10,17 +10,18 @@ body{
 .app-container{
     width: 100%;
     max-width: 430px;
+    height: 85vh;
     margin: 0 auto;
     flex: 1;
 }
 h1{
     font-size: 26px;
-        font-weight: 600;
         text-align: center;
-        color: #f2c0ff;
+        color: rgb(247, 90, 247);
         margin: 0 0 22px 0;
         letter-spacing: 0.3px;
         font-family: "Inter", "Segoe UI", sans-serif;
+        font: bold;
 }
 .chat-box{
     background: white;
@@ -47,7 +48,7 @@ button{
     padding: 10px 15px;
     margin-left: 8px;
     border: none;
-    background:#dcd6f7;
+    background:#d7aef3;
     color: white;
     border-radius: 6px;
     cursor: pointer;
@@ -59,7 +60,7 @@ button:hover{
 .summary-btn {
     width: 100%;
     margin-top: 15px;
-    background: #f2c0ff;
+    background: #d7aef3;
 }
 
 .message.ai {
@@ -137,7 +138,7 @@ button:hover{
 }
 footer{
     font: bold;
-    color: pink;
+    color: black;
     text-align: center;
     margin-top: 30px;
 }
