@@ -5,15 +5,22 @@ body{
     padding: 0;
     display: flex;
     justify-content: center;
+    flex-direction: column;
 }
 .app-container{
-    width: 95%;
-    max-width: 400px;
-    margin-top: 25px;
+    width: 100%;
+    max-width: 430px;
+    margin: 0 auto;
+    flex: 1;
 }
 h1{
-    text-align: center;
-    color: #333;
+    font-size: 26px;
+        font-weight: 600;
+        text-align: center;
+        color: #f2c0ff;
+        margin: 0 0 22px 0;
+        letter-spacing: 0.3px;
+        font-family: "Inter", "Segoe UI", sans-serif;
 }
 .chat-box{
     background: white;
@@ -22,23 +29,10 @@ h1{
     height: 420px;
     overflow-y: auto;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
 }
-.message{
-    margin-bottom: 15px;
-    padding: 10px;
-    border-radius: 6px;
-    width: fit-content;
-    max-width: 80%;
-}
-.user{
-    background: #4caf50;
-    color: white;
-    margin-left: auto;
-}
-.ai {
-    background: #e8e8e8;
-    color: #333;
-}
+
 .input-area{
     display: flex;
     margin-top: 10px;
@@ -53,7 +47,7 @@ button{
     padding: 10px 15px;
     margin-left: 8px;
     border: none;
-    background: #4caf50;
+    background:#dcd6f7;
     color: white;
     border-radius: 6px;
     cursor: pointer;
@@ -65,5 +59,85 @@ button:hover{
 .summary-btn {
     width: 100%;
     margin-top: 15px;
-    background: #3949ab;
+    background: #f2c0ff;
+}
+
+.message.ai {
+    background: #ffffff;
+    color: #333;
+    padding: 10px 14px;
+    border-radius: 18px;
+    margin: 8px 0;
+    max-width: 80%;
+    align-self: flex-start;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+.message.user {
+    background: #d7aef3;
+    color: #2a2a2a;
+    padding: 10px 14px;
+    border-radius: 18px 18px 4px 18px;
+    margin: 8px 0;
+    max-width: 80%;
+    align-self: flex-end;
+}
+
+.typing-bubble {
+    background: #ffffff;
+    padding: 8px 14px;
+    border-radius: 18px;
+    display: inline-block;
+    width: auto;
+}
+
+
+.typing-indicator {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.typing-indicator span {
+    width: 8px;
+    height: 8px;
+    background: #8e8e93;
+    opacity: 0.4;
+    display: block;
+    border-radius: 50%;
+    animation: blink 1.4s infinite both;
+}
+
+.typing-indicator span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes blink {
+    0% {
+        opacity: .2;
+        transform: translateY(0);
+    }
+
+    20% {
+        opacity: 1;
+        transform: translateY(-3px);
+    }
+
+    100% {
+        opacity: .2;
+        transform: translateY(0);
+    }
+}
+footer{
+    font: bold;
+    color: pink;
+    text-align: center;
+    margin-top: 30px;
 }

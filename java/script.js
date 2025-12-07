@@ -71,30 +71,46 @@ async function callAI(message) {
         renderChat();
     }
 }
-
 async function generateWeeklySummary() {
-
+    // Make sure we have ANY messages
     if (chatHistory.length === 0) {
         alert("No messages yet for a weekly summary.");
         return;
     }
 
-    let last7 = chatHistory
-        .filter(msg => Date.now() - msg.timestamp < 7 * 24 * 60 * 60 * 1000)
-        .map(msg => (msg.sender === "user" ? "User: " : "AI: ") + msg.text)
+    // Filter messages from the last 7 days
+    let last7days = chatHistory.filter(msg => {
+        return Date.now() - msg.timestamp < 7 * 24 * 60 * 60 * 1000;
+    });
+
+    // If there are no recent messages
+    if (last7days.length === 0) {
+        alert("You have no messages from the last 7 days.");
+        return;
+    }
+
+    // Convert chat into readable text
+    let conversationText = last7days
+        .map(msg => `${msg.sender.toUpperCase()}: ${msg.text}`)
         .join("\n");
 
-    let prompt = encodeURIComponent("Create a warm, supportive weekly mental wellness reflection summary based on this conversation:\n\n" + last7);
+    // Prepare AI prompt
+    let prompt = encodeURIComponent(
+        "Create a warm, supportive weekly mental wellness reflection summary based on this conversation:\n\n" +
+        conversationText
+    );
 
-    let context = encodeURIComponent("You generate empathetic emotional summaries and help users reflect gently.");
+    let context = encodeURIComponent(
+        "You generate short, empathetic mental wellness summaries."
+    );
 
-    let Url = `https://api.shecodes.io/ai/v1/generate?prompt=${prompt}&context=${context}&key=${ApiKey}`;
+    let url = `https://api.shecodes.io/ai/v1/generate?prompt=${prompt}&context=${context}&key=${ApiKey}`;
 
     try {
-        let response = await fetch(Url);
+        let response = await fetch(url);
         let data = await response.json();
 
-        let summaryText = data.answer ? data.answer : "I'm here for you.";
+        let summaryText = data.answer || "I’m here for you.";
 
         let aiMsg = {
             sender: "ai",
@@ -109,15 +125,16 @@ async function generateWeeklySummary() {
     } catch (error) {
         let aiError = {
             sender: "ai",
-            text: "I'm having trouble generating your weekly summary right now.",
+            text: "I couldn't generate your summary right now.",
             timestamp: Date.now()
         };
-
         chatHistory.push(aiError);
         saveHistory();
         renderChat();
     }
 }
+
+
 
 function renderChat() {
     chatBox.innerHTML = "";
@@ -140,8 +157,12 @@ function saveHistory() {
 function addTypingIndicator() {
     let div = document.createElement("div");
     div.id = "typing";
-    div.className = "message ai";
-    div.innerText = "MindEase is thinking...";
+    div.className = "message ai typing-bubble";
+    div.innerHTML = `<div class = "typing-indicator"> 
+    <span></span>
+    <span></span>
+    <span></span>
+    </div>`;
     chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
 }
